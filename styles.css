@@ -820,4 +820,44 @@ footer {
     .leaf {
         opacity: 0.15;
     }
+}
+
+/* Waitlist widget styling */
+#getWaitlistContainer {
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto;
+    position: relative;
+    z-index: 10;
+}
+
+#getWaitlistContainer form {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 12px !important;
+    padding: 10px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+#getWaitlistContainer input {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: none !important;
+    color: var(--text-dark) !important;
+    padding: 12px 15px !important;
+    border-radius: 8px !important;
+}
+
+#getWaitlistContainer button {
+    background: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+#getWaitlistContainer button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
 } 

@@ -94,36 +94,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 GetWaitlistObject.init();
                 console.log('Waitlist widget initialized');
                 
-                // Apply magnetic effect to the search box containing the widget
-                const searchBox = document.querySelector('.search-box');
-                if (searchBox) {
-                    searchBox.addEventListener('mousemove', (e) => {
-                        const position = searchBox.getBoundingClientRect();
-                        const x = e.clientX - position.left - position.width / 2;
-                        const y = e.clientY - position.top - position.height / 2;
-                        
-                        searchBox.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                // Add a MutationObserver to detect when the form is added to the DOM
+                const waitlistContainer = document.getElementById('getWaitlistContainer');
+                if (waitlistContainer) {
+                    const observer = new MutationObserver((mutations) => {
+                        const form = waitlistContainer.querySelector('form');
+                        if (form && !form.dataset.listenerAdded) {
+                            // Add submit event listener to the form
+                            form.addEventListener('submit', (e) => {
+                                // Let the form submit normally first
+                                setTimeout(() => {
+                                    // Refresh the page after a short delay
+                                    window.location.reload();
+                                }, 1500); // Wait 1.5 seconds before refreshing
+                            });
+                            form.dataset.listenerAdded = 'true';
+                            observer.disconnect(); // Stop observing once we've found the form
+                        }
                     });
-
-                    searchBox.addEventListener('mouseleave', () => {
-                        searchBox.style.transform = 'translate(0px, 0px)';
-                    });
+                    
+                    // Start observing the container for changes
+                    observer.observe(waitlistContainer, { childList: true, subtree: true });
+                    
+                    // Also check for the button directly
+                    setTimeout(() => {
+                        const submitButton = waitlistContainer.querySelector('button[type="submit"]');
+                        if (submitButton && !submitButton.dataset.listenerAdded) {
+                            submitButton.addEventListener('click', () => {
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            });
+                            submitButton.dataset.listenerAdded = 'true';
+                        }
+                    }, 1000); // Give the widget time to initialize
                 }
-                
-                // Intercept form submission
-                setTimeout(() => {
-                    const form = document.querySelector('#getWaitlistContainer form');
-                    if (form) {
-                        form.addEventListener('submit', (e) => {
-                            // Let the form submit normally
-                            setTimeout(() => {
-                                // Show thank you modal after submission
-                                thankYouModal.style.display = 'flex';
-                            }, 1000);
-                        });
-                    }
-                }, 1500); // Wait for widget to fully initialize
-                
             } catch (error) {
                 console.error('Error initializing waitlist widget:', error);
             }
