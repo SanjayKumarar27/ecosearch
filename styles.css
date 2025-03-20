@@ -101,22 +101,15 @@ header {
     border-radius: 30px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s;
     white-space: nowrap;
     font-size: 1rem;
     position: relative;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-width: 160px;
 }
 
 .waitlist-button:hover {
     background-color: var(--secondary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(47, 82, 51, 0.2);
 }
 
 .button-effect {
@@ -642,23 +635,23 @@ footer {
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)) brightness(1.2);
 }
 
-/* Leaf variations */
+/* Leaf variations with better nature images */
 .leaf-1 { 
-    background-image: url('https://images.unsplash.com/photo-1569411032431-07598b0012c2?w=200');
+    background-image: url('https://assets.codepen.io/1462889/leaf1.png');
     width: 50px;
     height: 50px;
     background-size: cover;
 }
 
 .leaf-2 { 
-    background-image: url('https://images.unsplash.com/photo-1564813831155-4a283adc2457?w=200');
+    background-image: url('https://assets.codepen.io/1462889/leaf2.png');
     width: 45px;
     height: 45px;
     background-size: cover;
 }
 
 .leaf-3 { 
-    background-image: url('https://images.unsplash.com/photo-1566808907623-9c6b26341660?w=200');
+    background-image: url('https://assets.codepen.io/1462889/leaf3.png');
     width: 40px;
     height: 40px;
     background-size: cover;
@@ -679,7 +672,7 @@ footer {
     height: 600px;
     left: -100px;
     bottom: -50px;
-    background-image: url('https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=800');
+    background-image: url('https://assets.codepen.io/1462889/tree1.png');
     background-size: cover;
     opacity: 0.4;
 }
@@ -689,7 +682,7 @@ footer {
     height: 500px;
     right: -80px;
     bottom: -40px;
-    background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800');
+    background-image: url('https://assets.codepen.io/1462889/tree2.png');
     background-size: cover;
     opacity: 0.4;
 }

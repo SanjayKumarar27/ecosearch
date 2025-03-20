@@ -7,6 +7,130 @@ AOS.init({
     mirror: true  // Enable mirroring of animations when scrolling up
 });
 
+// Add Waitlist widget initialization
+document.addEventListener('DOMContentLoaded', () => {
+    // Remove any existing thank you modal if it exists
+    const existingModal = document.getElementById('thank-you-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Create thank you modal for future submissions
+    const createThankYouModal = () => {
+        const modal = document.createElement('div');
+        modal.id = 'thank-you-modal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Thank You!</h3>
+                <p>You've successfully joined the EcoSearch waitlist.</p>
+                <p>We'll notify you when we launch.</p>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Add event listener to close button
+        const closeBtn = modal.querySelector('.close');
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            // Refresh the page after closing the modal
+            window.location.reload();
+        });
+        
+        return modal;
+    };
+    
+    // Create the modal but keep it hidden
+    const thankYouModal = createThankYouModal();
+    thankYouModal.style.display = 'none';
+    
+    // Add nature background elements dynamically
+    const createNatureElements = () => {
+        // Create additional leaves for a more natural feel
+        const natureBg = document.querySelector('.nature-bg');
+        
+        // Add more leaves dynamically
+        for (let i = 0; i < 8; i++) {
+            const leafType = Math.floor(Math.random() * 3) + 1;
+            const leaf = document.createElement('div');
+            leaf.className = `leaf leaf-${leafType}`;
+            
+            // Random starting positions
+            leaf.style.left = `${Math.random() * 100}vw`;
+            leaf.style.top = `${Math.random() * 100}vh`;
+            
+            // Random animations
+            const duration = 15 + Math.random() * 30;
+            const delay = Math.random() * 15;
+            
+            leaf.style.animation = `floatLeaf${leafType} ${duration}s ease-in-out ${delay}s infinite`;
+            
+            natureBg.appendChild(leaf);
+        }
+        
+        // Animate trees
+        const treeLeft = document.querySelector('.tree-left');
+        const treeRight = document.querySelector('.tree-right');
+        
+        if (treeLeft) {
+            treeLeft.style.animation = 'swayLeft 8s ease-in-out infinite';
+        }
+        
+        if (treeRight) {
+            treeRight.style.animation = 'swayRight 10s ease-in-out infinite';
+        }
+    };
+    
+    // Initialize nature elements
+    createNatureElements();
+    
+    // Wait for the page to fully load
+    window.addEventListener('load', () => {
+        // Initialize the widget if it exists
+        if (typeof GetWaitlistObject !== 'undefined') {
+            try {
+                // Initialize the widget
+                GetWaitlistObject.init();
+                console.log('Waitlist widget initialized');
+                
+                // Apply magnetic effect to the search box containing the widget
+                const searchBox = document.querySelector('.search-box');
+                if (searchBox) {
+                    searchBox.addEventListener('mousemove', (e) => {
+                        const position = searchBox.getBoundingClientRect();
+                        const x = e.clientX - position.left - position.width / 2;
+                        const y = e.clientY - position.top - position.height / 2;
+                        
+                        searchBox.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                    });
+
+                    searchBox.addEventListener('mouseleave', () => {
+                        searchBox.style.transform = 'translate(0px, 0px)';
+                    });
+                }
+                
+                // Intercept form submission
+                setTimeout(() => {
+                    const form = document.querySelector('#getWaitlistContainer form');
+                    if (form) {
+                        form.addEventListener('submit', (e) => {
+                            // Let the form submit normally
+                            setTimeout(() => {
+                                // Show thank you modal after submission
+                                thankYouModal.style.display = 'flex';
+                            }, 1000);
+                        });
+                    }
+                }, 1500); // Wait for widget to fully initialize
+                
+            } catch (error) {
+                console.error('Error initializing waitlist widget:', error);
+            }
+        }
+    });
+});
+
 // Enhanced scroll animations
 const animateOnScroll = () => {
     const elements = document.querySelectorAll('.feature-card, .section-heading, .gradient-text, .glitch-text');
